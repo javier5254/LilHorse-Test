@@ -1,5 +1,14 @@
 import React, { useEffect } from "react";
-import { Button, Checkbox, Form, Input, InputNumber, Select, Typography } from "antd";
+import {
+  Button,
+  Checkbox,
+  Flex,
+  Form,
+  Input,
+  InputNumber,
+  Select,
+  Typography,
+} from "antd";
 import { Todo } from "../../../context/types";
 import { useTodoContext } from "../../../context/todo";
 
@@ -44,6 +53,10 @@ export const Formularium: React.FC = () => {
     } else {
       todoContext.handleAddTask(values);
     }
+    onReset();
+  };
+
+  const onReset = () => {
     form.resetFields();
   };
 
@@ -52,7 +65,12 @@ export const Formularium: React.FC = () => {
       <Typography.Title level={4} style={{ padding: "0px 20px" }}>
         Creación de Todos
       </Typography.Title>
-      <Form layout="horizontal" style={{ padding: "30px 20px " }} onFinish={onFinish} form={form}>
+      <Form
+        layout="horizontal"
+        style={{ padding: "30px 20px " }}
+        onFinish={onFinish}
+        form={form}
+      >
         <Form.Item name="_id" hidden>
           <Input />
         </Form.Item>
@@ -90,7 +108,10 @@ export const Formularium: React.FC = () => {
             },
           ]}
         >
-          <InputNumber placeholder="Ingresa la prioridad" style={{ width: "100%" }} />
+          <InputNumber
+            placeholder="Ingresa la prioridad"
+            style={{ width: "100%" }}
+          />
         </Form.Item>
         <Form.Item
           name="duration"
@@ -108,9 +129,14 @@ export const Formularium: React.FC = () => {
           <Checkbox>Destacar ?</Checkbox>
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
-            {formfill ? "Editar tarea" : "Crear tarea"}
-          </Button>
+          <Flex justify="space-between">
+            <Button type="primary" htmlType="submit">
+              {formfill ? "Editar tarea" : "Crear tarea"}
+            </Button>
+            <Button type="primary" onClick={onReset}>
+              Limpiar
+            </Button>
+          </Flex>
         </Form.Item>
       </Form>
     </>
