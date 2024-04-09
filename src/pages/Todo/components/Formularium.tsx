@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Checkbox,
@@ -38,17 +38,19 @@ const taskDurations = [
 
 export const Formularium: React.FC = () => {
   const todoContext = useTodoContext();
+  const fieldContext = todoContext.edit;
   const [form] = Form.useForm();
-  const formfill = todoContext.edit;
+  const [fieldsFill,setFieldsFill] = useState(fieldContext);
 
   useEffect(() => {
-    if (formfill) {
-      form.setFieldsValue(formfill);
+    if (fieldContext) {
+      form.setFieldsValue(fieldContext);
+      setFieldsFill(fieldContext)
     }
-  }, [form, formfill]);
+  }, [form, fieldContext]);
 
   const onFinish = (values: Todo) => {
-    if (formfill?._id) {
+    if (fieldsFill?._id) {
       todoContext.handleUploadTask(values);
     } else {
       todoContext.handleAddTask(values);
@@ -58,6 +60,7 @@ export const Formularium: React.FC = () => {
 
   const onReset = () => {
     form.resetFields();
+    setFieldsFill(null);
   };
 
   return (
@@ -131,7 +134,7 @@ export const Formularium: React.FC = () => {
         <Form.Item>
           <Flex justify="space-between">
             <Button type="primary" htmlType="submit">
-              {formfill ? "Editar tarea" : "Crear tarea"}
+              {fieldsFill ? "Editar tarea" : "Crear tarea"}
             </Button>
             <Button type="primary" onClick={onReset}>
               Limpiar
